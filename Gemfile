@@ -5,6 +5,9 @@ ruby '2.7.4'
 
 gem 'simplecov', require: false, group: :test
 
+gem 'jsonapi-serializer'
+
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.8', '>= 5.2.8.1'
 # Use postgresql as the database for Active Record
