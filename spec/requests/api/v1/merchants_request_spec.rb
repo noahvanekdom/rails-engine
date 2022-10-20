@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Merchants API" do
+describe "Merchants API endpoint" do
   it "sends a list of merchants" do
     create_list(:merchant, 3)
 
@@ -16,9 +16,8 @@ describe "Merchants API" do
       expect(merchant).to have_key(:attributes)
       expect(merchant[:attributes][:name]).to be_a(String)
 
-      expect(merchant[:relationships]).to have_key(:item)
-      expect(merchant[:relationships]).to have_key(:data)
+      # expect(merchant[:relationships]).to have_key(:item)
+      # expect(merchant[:relationships]).to have_key(:data)
     end
   end
-
 end
