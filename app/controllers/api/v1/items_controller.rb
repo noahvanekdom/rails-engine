@@ -15,6 +15,16 @@ class Api::V1::ItemsController < ApplicationController
     end
   end
 
+  def update
+    if params[:merchant_id]
+      merchant = Merchant.find(params[:merchant_id])
+    end
+    item = Item.find(params[:id])
+    if item.update(item_params)
+      render json: ItemSerializer.new(item), status: :accepted
+    end
+  end
+
   private
 
   def item_params
