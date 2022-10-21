@@ -17,7 +17,7 @@ class Api::V1::ItemsController < ApplicationController
 
   def update
     if params[:merchant_id]
-      merchant = Merchant.find(params[:merchant_id])
+      merch = Merchant.find(params[:merchant_id])
     end
     item = Item.find(params[:id])
     if item.update(item_params)
