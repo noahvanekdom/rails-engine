@@ -4,10 +4,13 @@ class Item < ApplicationRecord
                         :unit_price,
                         :merchant_id
 
-  has_many :invoice_items
+  validates_numericality_of :unit_price
+
+  enum status: [:disabled, :enabled]
+
+  has_many :invoice_items, dependent: :destroy
   has_many :invoices, through: :invoice_items
 
   belongs_to :merchant
 
-  enum status: [:disabled, :enabled]
 end
