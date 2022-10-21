@@ -13,13 +13,13 @@ describe "Single Item API endpoint" do
 
     item = api_response[:data]
     expect(item).to have_key(:id)
-    expect(item[:id]).to be_an(String)
+    expect(item[:id]).to eq(test_item.id.to_s)
     expect(item).to have_key(:type)
     expect(item[:type]).to eq("item")
     expect(item).to have_key(:attributes)
     expect(item[:attributes]).to be_an(Hash)
     item_attributes = item[:attributes]
     expect(item_attributes).to have_key(:name)
-    expect(item_attributes[:name]).to be_an(String)
+    expect(item_attributes[:name]).to eq(test_item.name)
   end
 end
