@@ -80,7 +80,7 @@ describe "Item search" do
     describe "find one by price happy paths" do
 
       it 'returns a search by min and max price' do
-        get "/api/v1/items/find?min_price=100"
+        get "/api/v1/items/find?min_price=100&max_price=2000"
         expected_response = {:data=>{:attributes=>{:description=>@item_4.description, :merchant_id=>@merchant.id, :name=>"Albatross Saddles", :unit_price=>500.0}, :id=>@item_4.id.to_s, :type=>"item"}}
 
         expect(response).to be_successful

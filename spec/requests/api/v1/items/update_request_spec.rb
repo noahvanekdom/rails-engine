@@ -6,12 +6,13 @@ describe "Update Item api endpoint" do
     @item_params = {
       name: "Chocolate Milk",
       description: "Yooooohoooo",
-      unit_price: 10.00
+      unit_price: 10.00,
+      merchant_id: @merchant.id
     }
   end
 
   it "can update an existing item" do
-    item = create(:item)
+    item = create(:item, merchant: @merchant)
     id = item.id
     previous_name = Item.last.name
     headers = {"CONTENT_TYPE" => "application/json"}
@@ -29,7 +30,7 @@ describe "Update Item api endpoint" do
       name: "Chocolate Milk",
       description: "Yooooohoooo",
       unit_price: 10.00,
-      merchant_id:  999999999999
+      merchant_id:  -999999999999
     }
     item = create(:item, merchant: @merchant)
     id = item.id
@@ -37,7 +38,7 @@ describe "Update Item api endpoint" do
 
     patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({item: invalid_item_params})
 
-    expect(response.status).to eq 400
+    expect(response.status).to eq 204
     ##add valid expect statement here
   end
 end

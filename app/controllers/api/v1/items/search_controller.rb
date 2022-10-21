@@ -32,7 +32,7 @@ class Api::V1::Items::SearchController < ApplicationController
     min = params[:min_price]
     max = params[:max_price]
     if min && max && !params[:name]
-      max.to_f >= min.to_f && min.to_f >= 0 && !min.empty
+      max.to_f >= min.to_f && min.to_f >= 0 && !min.empty?
     elsif min && !params[:name] && min != ""
       min.to_f >= 0
     elsif max && !params[:name] && max != ""
