@@ -13,4 +13,10 @@ class Item < ApplicationRecord
 
   belongs_to :merchant
 
+  def self.name_search(search, limit = 1)
+    result = where("name ILIKE ?", "%#{search}%").limit(limit).order(:name)
+  end
+
+  # def self.price_search(min_price = nil, max_price = nil, limit)
+  # end
 end

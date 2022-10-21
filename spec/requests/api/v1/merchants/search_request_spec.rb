@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe "Merchant search endpoint" do
-  it 'returns an item based on a search query' do
-    item = create(:item, name: "BLAINE")
+  xit 'returns an item based on a search query' do
+    merchant = create(:merchant, name: "BLAINE")
 
     get "/api/v1/items/find?name=BLAINE"
 
