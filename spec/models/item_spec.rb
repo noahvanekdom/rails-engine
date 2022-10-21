@@ -14,7 +14,7 @@ RSpec.describe Item, type: :model do
   end
 
   describe "upon being destroyed" do
-    it "destroys any invoices that belong to it" do
+    it "destroys any invoice_items that belong to it" do
       destroy_item = create(:item)
       keep_item = create(:item)
       invoiceitem_1 = create(:invoice_item, item: destroy_item)
@@ -24,5 +24,4 @@ RSpec.describe Item, type: :model do
       expect(Invoice.all.count).to eq 1
     end
   end
-
 end

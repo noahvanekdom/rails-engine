@@ -1,4 +1,6 @@
-describe "Create Item api endpoint" do
+require 'rails_helper'
+
+describe "Update Item api endpoint" do
   before(:each) do
     @merchant = create(:merchant)
     @item_params = {

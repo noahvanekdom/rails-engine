@@ -1,3 +1,4 @@
+require 'rails_helper'
 describe "Create Item api endpoint" do
   before(:each) do
     @merchant = create(:merchant)
@@ -8,7 +9,6 @@ describe "Create Item api endpoint" do
       merchant_id: @merchant.id
     }
   end
-
 
   it 'can create a successful item' do
     post "/api/v1/items", headers: {"CONTENT_TYPE" => "application/json"}, params: JSON.generate(item: @item_params)

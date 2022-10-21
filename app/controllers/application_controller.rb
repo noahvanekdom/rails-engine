@@ -6,12 +6,12 @@ class ApplicationController < ActionController::API
   def render_unprocessable_entity_response(exception)
     render json: {
       message: "your query could not be completed",
-      errors: exception.record.errors}, status: 400
+      errors: exception.record.errors, id: nil, attributes: [] }, status: 400
   end
 
   def render_not_found_response(exception)
     render json: {
       message: "your query could not be completed",
-      error: exception.message }, status: 404
+      error: exception.message, id: nil, attributes: [] }, status: 404
   end
 end

@@ -7,7 +7,7 @@ class InvoiceItem < ApplicationRecord
   belongs_to :invoice
   belongs_to :item
 
-  before_destroy { @invoice = :invoice }
+  before_destroy { @invoice = invoice }
   after_destroy { if @invoice.invoice_items.count == 0
                     @invoice.destroy
                   end
