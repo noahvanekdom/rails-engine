@@ -4,9 +4,11 @@ describe "Item search" do
 
   describe "Find one" do
     before(:each) do
-      @item = create(:item, name: "BLAINE")
-      @item_2 = create(:item, name: "Chocolate Milk")
-      @item_3 = create(:item, name: "Tiger")
+      @merchant = create(:merchant)
+      @item = create(:item, name: "BLAINE", unit_price: 1000.00)
+      @item_2 = create(:item, name: "Chocolate Milk", unit_price: 15.00)
+      @item_3 = create(:item, name: "Tiger", unit_price: 430.50)
+      @item_4 = create(:item, name: "Albatross Saddles", unit_price: 500.00, merchant_id: @merchant.id)
     end
     it 'returns an item based on a search query' do
       get "/api/v1/items/find?name=BLAINE"
@@ -56,6 +58,13 @@ describe "Item search" do
     it 'errors upon a nil input' do
       get "/api/v1/items/find?name="
       expect(response.status).to eq 400
+      body = JSON.parse(response.body, symbolize_names: true)
+      expect(body).to eq({
+        :attributes => [],
+        :error => "bad inputs",
+        :id => nil,
+        :message => "your query could not be completed"
+          })
     end
 
     it 'returns an empty object if there are no results' do
@@ -66,7 +75,41 @@ describe "Item search" do
       body = JSON.parse(response.body, symbolize_names: true )
 
       expect(body).to eq({data:{}})
+    end
 
+    describe "find one by price happy paths" do
+
+      it 'returns a search by min and max price' do
+        get "/api/v1/items/find?min_price=100"
+        expected_response = {:data=>{:attributes=>{:description=>@item_4.description, :merchant_id=>@merchant.id, :name=>"Albatross Saddles", :unit_price=>500.0}, :id=>@item_4.id.to_s, :type=>"item"}}
+
+        expect(response).to be_successful
+        body = JSON.parse(response.body, symbolize_names: true )
+        expect(body).to eq expected_response
+      end
+
+      it 'errors if the min or max price is less than 0' do
+        get "/api/v1/items/find?max_price=-100"
+        expect(response.status).to eq 400
+        get "/api/v1/items/find?min_price=-1"
+        expect(response.status).to eq 400
+      end
+
+      it 'errors if the min price is below the max price' do
+        get "/api/v1/items/find?min_price=50&max_price=10"
+        expect(response.status).to eq 400
+      end
+
+      it 'errors on a nil input' do
+        get "/api/v1/items/find?min_price="
+        expect(response.status).to eq 400
+      end
+
+      it 'returns an empty object if a max price is set below all unit_prices' do
+        get "/api/v1/items/find?max_price=5"
+        body = JSON.parse(response.body, symbolize_names: true )
+        expect(body).to eq({data:{}})
+      end
     end
   end
 end

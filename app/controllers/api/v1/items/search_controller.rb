@@ -8,7 +8,12 @@ class Api::V1::Items::SearchController < ApplicationController
         render json: ItemSerializer.new(item)
       end
     elsif search_price?
-      render json: ItemSerializer.new(Item.price_search(params[:min_price], params[:max_price], 1))
+      item = Item.price_search(params[:min_price], params[:max_price], 1)
+      if item == [] || item == nil
+        render json: {data: {}}
+      elsif item != nil
+        render json: ItemSerializer.new(item.first)
+      end
     else
       render json: {
         message: "your query could not be completed",
@@ -28,7 +33,10 @@ class Api::V1::Items::SearchController < ApplicationController
     max = params[:max_price]
     if min && max && !params[:name]
       max.to_f >= min.to_f && min.to_f >= 0 && !min.empty
-    else
+    elsif min && !params[:name] && min != ""
+      min.to_f >= 0
+    elsif max && !params[:name] && max != ""
+      max.to_f >= 0
     end
   end
 end

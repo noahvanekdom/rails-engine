@@ -23,11 +23,13 @@ describe "Merchant API endpoint" do
     expect(merchant_attributes[:name]).to be_an(String)
   end
 
-  xit 'returns an error when the id does not match an id of a merchant in the system' do
-
-
+  it 'returns an error when the id does not match an id of a merchant in the system' do
+    expected_error = {"attributes"=>[], "error"=>"Couldn't find Merchant with 'id'=1", "id"=>nil, "message"=>"your query could not be completed"}
     get "/api/v1/merchants/1"
 
     expect(response).to have_http_status(404)
+    body = JSON.parse(response.body)
+
+    expect(body).to eq({"attributes"=>[], "error"=>"Couldn't find Merchant with 'id'=1", "id"=>nil, "message"=>"your query could not be completed"})
   end
 end

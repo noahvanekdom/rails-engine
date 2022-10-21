@@ -17,10 +17,10 @@ class Api::V1::ItemsController < ApplicationController
 
   def update
     if params[:merchant_id]
-      merchant = Merchant.find(params[:merchant_id])
+      merch_id = Merchant.find(params[:merchant_id])
     end
     item = Item.find(params[:id])
-    if item.update(item_params)
+    if item.update(item_params, merchant_id: merch_id)
       render json: ItemSerializer.new(item), status: :accepted
     end
   end
